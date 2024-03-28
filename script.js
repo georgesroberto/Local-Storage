@@ -1,32 +1,86 @@
 let container = document.querySelector(".container");
 let button = document.getElementById("add");
+button.addEventListener("click", addAnimal);
 
-let card = document.createElement("div");
-card.classList.add("childDiv");
-
-let headers = ["Cheetah", "Buffalo", "Rhino"];
-let animals = ["img/cheetah.jpeg", "img/buffalo.jpeg", "img/rhino.jpeg"];
-let text = ["This is a cheetah", "This is a buffalo", "This is a rhino"];
+// DEFINED animals data
+let animals = [
+  {
+    header: "Cheetah",
+    imgSrc: "img/cheetah.jpeg",
+    altText: "This is a cheetah",
+  },
+  {
+    header: "Buffalo",
+    imgSrc: "img/buffalo.jpeg",
+    altText: "This is a buffalo",
+  },
+  {
+    header: "Rhino",
+    imgSrc: "img/rhino.jpeg",
+    altText: "This is a rhino",
+  },
+  {
+    header: "Elephant",
+    imgSrc: "img/elephant.jpeg",
+    altText: "This is an elephant",
+  },
+];
 
 let index = 0;
 
-button.addEventListener("click", addAnimal);
+// LOAD animals data from local storage
 
+if (localStorage.getItem("animals")) {
+  /* TODO: Display the loaded data */
+
+  animals = JSON.parse(localStorage.getItem("animals"));
+
+  displayAnimal();
+}
+
+// ADD current animal to the container
 function addAnimal() {
-  let newCard = card.cloneNode(true);
+  if (index >= animals.length) {
+    alert("Only big 5 animals can be added to the list");
+    return;
+  }
+
+  // IMPLEMENT .
+  let currentAnimal = animals[index];
+  let newAnimalCard = createAnimalCard(currentAnimal);
+  container.append(newAnimalCard);
+
+  /* TODO: increment index */
+  index++;
+
+  // SAVE updated animals data to the LS
+  localStorage.setItem("animals", JSON.stringify(animals));
+}
+
+function displayAnimal() {
+  // Display all animals
+
+  animals.forEach((el) => {
+    let newAnimalCard = createAnimalCard(el);
+    container.append(newAnimalCard);
+  });
+}
+
+function createAnimalCard(animals) {
+  let card = document.createElement("div");
+  card.classList.add("childDiv");
 
   let h3 = document.createElement("h3");
-  h3.textContent = headers[index];
+  h3.textContent = animals.header;
 
   let img = document.createElement("img");
-  img.src = animals[index];
-  img.alt = "animal";
+  img.src = animals.imgSrc;
+  img.alt = animals.altText;
 
   let description = document.createElement("p");
-  description.textContent = text[index];
+  description.textContent = animals.altText;
 
-  newCard.append(h3, img, description);
-  container.append(newCard);
+  card.append(h3, img, description);
 
-  index = (index + 1) % headers.length;
+  return card;
 }
