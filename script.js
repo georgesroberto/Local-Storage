@@ -26,7 +26,7 @@ let animals = [
   },
 ];
 
-let index = 0;
+let animalIndex = 0;
 
 // LOAD animals data from local storage
 
@@ -40,18 +40,18 @@ if (localStorage.getItem("animals")) {
 
 // ADD current animal to the container
 function addAnimal() {
-  if (index >= animals.length) {
+  if (animalIndex >= animals.length) {
     alert("Only big 5 animals can be added to the list");
     return;
   }
 
   // IMPLEMENT .
-  let currentAnimal = animals[index];
+  let currentAnimal = animals[animalIndex];
   let newAnimalCard = createAnimalCard(currentAnimal);
   container.append(newAnimalCard);
 
-  /* TODO: increment index */
-  index++;
+  /* TODO: increment animalIndex */
+  animalIndex++;
 
   // SAVE updated animals data to the LS
   localStorage.setItem("animals", JSON.stringify(animals));
